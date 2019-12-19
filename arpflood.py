@@ -11,18 +11,19 @@ def get_mac():
 	return mac
 def build_rep(hwsrc=None,hwdst=None,psrc=None,pdst=None,op=None):
 	if	op==None:
-		op=1
+            op=1
 	if pdst==None:
 		hwdst='ff:ff:ff:ff:ff:ff'
 		pkt = Ether(src=hwsrc,dst=hwdst)/ARP(hwsrc=hwsrc,psrc=psrc,op=op)
-	pkt = Ether(src=hwsrc,dst=hwdst)/ARP(hwsrc=hwsrc,hwdst=hwdst,psrc=psrc,pdst=pdst,op=op)
+        else:
+            pkt = Ether(src=hwsrc,dst=hwdst)/ARP(hwsrc=hwsrc,hwdst=hwdst,psrc=psrc,pdst=pdst,op=op)
 	return pkt
 
 def main():
 	usage = 'Usage: %prog [-i interface] [-t target] host'
 	parser = OptionParser(usage)
 	parser.add_option('-i',type='string',dest='interface',default='eth0',help='The interface to use')
-	parser.add_option('-t',type='string',dest='target',default='192.168.1.105',help='Your destination')
+	parser.add_option('-t',type='string',dest='target',default=None,help='Your destination')
 	parser.add_option('-m',type='int',dest='op',default=1,help='default:1 requset:1 reponse:2')
 	parser.add_option('-o',type='string',dest='psrc',default='192.168.1.1',help='Yours ip')
 	(option,args)=parser.parse_args()
